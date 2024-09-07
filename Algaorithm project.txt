@@ -1,0 +1,88 @@
+def merge_sort(arr):
+    """
+    Function to perform merge sort on an array.
+    
+    Args:
+    arr (list): The list of elements to be sorted.
+    
+    Returns:
+    list: The sorted list of elements.
+    """
+    # Base case: If the list is of length 1 or empty, it is already sorted.
+    if len(arr) <= 1:
+        return arr
+
+    def merge(left, right):
+        """
+        Merge two sorted lists into one sorted list.
+        
+        Args:
+        left (list): The first sorted list.
+        right (list): The second sorted list.
+        
+        Returns:
+        list: A merged and sorted list containing elements from both input lists.
+        """
+        sorted_list = []
+        # Merge the two lists while both lists are non-empty.
+        while left and right:
+            if left[0] < right[0]:
+                sorted_list.append(left.pop(0))  # Append the smaller element from left list.
+            else:
+                sorted_list.append(right.pop(0))  # Append the smaller element from right list.
+        # If any elements are left in either list, extend them to the sorted list.
+        sorted_list.extend(left or right)
+        return sorted_list
+
+    # Split the list into two halves.
+    mid = len(arr) // 2
+    left_half = merge_sort(arr[:mid])   # Recursively sort the left half.
+    right_half = merge_sort(arr[mid:])  # Recursively sort the right half.
+    return merge(left_half, right_half) # Merge the sorted halves.
+
+def binary_search(arr, target):
+    """
+    Function to perform binary search on a sorted list.
+    
+    Args:
+    arr (list): The sorted list of elements.
+    target (int/float): The element to search for.
+    
+    Returns:
+    int: The index of the target element in the list, or -1 if not found.
+    """
+    left, right = 0, len(arr) - 1
+
+    # Perform binary search.
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid  # Target found at index mid.
+        elif arr[mid] < target:
+            left = mid + 1  # Search in the right half.
+        else:
+            right = mid - 1  # Search in the left half.
+
+    return -1  # Return -1 if the target is not found in the list.
+
+def main():
+    """
+    Main function to demonstrate merge sort followed by binary search.
+    """
+    # Example array and target value.
+    arr = [38, 27, 43, 3, 9, 82, 10]
+    target = 27
+
+    # Sort the array using Merge Sort.
+    sorted_arr = merge_sort(arr)
+    print("Sorted Array:", sorted_arr)
+
+    # Search for the target value in the sorted array using Binary Search.
+    index = binary_search(sorted_arr, target)
+    if index != -1:
+        print(f"Element {target} found at index {index}")
+    else:
+        print(f"Element {target} not found in the array")
+
+if __name__ == "__main__":
+    main()
